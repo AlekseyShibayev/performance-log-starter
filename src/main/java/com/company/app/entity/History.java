@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -22,4 +23,7 @@ public class History {
 
 	@Column(name = "message")
 	private String message;
+
+	@Column(name = "date")
+	private Date date;
 }
