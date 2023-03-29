@@ -26,6 +26,5 @@ public class SerializationServiceImpl<T> implements SerializationService<T> {
 		ObjectMapper mapper = new ObjectMapper();
 		T[] array = mapper.readValue(new File(fileName), type);
 		return Arrays.asList(array);
-//	todo: использование анонимного класса тест проходит, но конфликтует со спригом, подумать:   return Arrays.asList(mapper.readValue(new File(fileName), new TypeReference<>() {}));
 	}
 }
