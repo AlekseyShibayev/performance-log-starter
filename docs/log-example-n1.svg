@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="284" viewBox="0 0 900 284"
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="320" viewBox="0 0 900 320"
      role="img" aria-label="Пример лога PerformanceLog — N+1">
   <defs>
     <clipPath id="box">
-      <rect x="0" y="0" width="900" height="284" rx="10"/>
+      <rect x="0" y="0" width="900" height="320" rx="10"/>
     </clipPath>
     <style>
       text {
@@ -20,7 +20,7 @@
   </defs>
 
   <g clip-path="url(#box)">
-    <rect width="900" height="284" fill="#0d1117"/>
+    <rect width="900" height="320" fill="#0d1117"/>
 
     <text xml:space="preserve" x="20" y="40"><tspan
         class="msg">method execution time: [</tspan><tspan class="num">1480</tspan><tspan
@@ -45,10 +45,12 @@
     <text xml:space="preserve" x="20" y="220"><tspan class="msg">onLoad: total: [</tspan><tspan
         class="num">120</tspan><tspan class="msg">], types:</tspan></text>
 
-    <text xml:space="preserve" x="20" y="256"><tspan class="cnt">x20 </tspan><tspan
-        class="sql">User</tspan><tspan class="faint">,  </tspan><tspan class="cnt">x100 </tspan><tspan
+    <text xml:space="preserve" x="20" y="256"><tspan class="cnt">x20  </tspan><tspan
+        class="sql">User</tspan></text>
+
+    <text xml:space="preserve" x="20" y="292"><tspan class="cnt">x100 </tspan><tspan
         class="sql">Order</tspan></text>
   </g>
 
-  <rect x="0.5" y="0.5" width="899" height="283" rx="10" fill="none" stroke="#30363d"/>
+  <rect x="0.5" y="0.5" width="899" height="319" rx="10" fill="none" stroke="#30363d"/>
 </svg>
