@@ -24,13 +24,13 @@
 
     <text xml:space="preserve" x="20" y="40"><tspan
         class="msg">method execution time: [</tspan><tspan class="num">1480</tspan><tspan
-        class="msg">] ms, return collection, size: [</tspan><tspan class="num">20</tspan><tspan class="msg">],</tspan></text>
+        class="msg">] ms, return collection, size: [</tspan><tspan class="num">10</tspan><tspan class="msg">],</tspan></text>
 
     <text xml:space="preserve" x="20" y="76"><tspan class="msg">source: [</tspan><tspan
         class="path">UserService.findAllWithOrders#1</tspan><tspan class="msg">], query info:</tspan></text>
 
     <text xml:space="preserve" x="20" y="112"><tspan class="msg">onPrepareStatement: total: [</tspan><tspan
-        class="num">21</tspan><tspan class="msg">] (select: [</tspan><tspan class="num">21</tspan><tspan
+        class="num">11</tspan><tspan class="msg">] (select: [</tspan><tspan class="num">11</tspan><tspan
         class="msg">]), sql:</tspan></text>
 
     <text xml:space="preserve" x="20" y="148"><tspan class="cnt">x1  </tspan><tspan
@@ -38,14 +38,14 @@
 
     <rect x="14" y="156" width="872" height="36" rx="4" fill="#3a2d12"/>
     <rect x="14" y="156" width="4" height="36" fill="#d29922"/>
-    <text xml:space="preserve" x="20" y="184"><tspan class="cnt">x20 </tspan><tspan
+    <text xml:space="preserve" x="20" y="184"><tspan class="cnt">x10 </tspan><tspan
         class="sql">select o1_0.id, o1_0.amount from orders o1_0 where o1_0.user_id = ?</tspan></text>
     <text xml:space="preserve" x="790" y="184"><tspan class="warn">← N+1</tspan></text>
 
     <text xml:space="preserve" x="20" y="220"><tspan class="msg">onLoad: total: [</tspan><tspan
-        class="num">120</tspan><tspan class="msg">], types:</tspan></text>
+        class="num">110</tspan><tspan class="msg">], types:</tspan></text>
 
-    <text xml:space="preserve" x="20" y="256"><tspan class="cnt">x20  </tspan><tspan
+    <text xml:space="preserve" x="20" y="256"><tspan class="cnt">x10  </tspan><tspan
         class="sql">User</tspan></text>
 
     <text xml:space="preserve" x="20" y="292"><tspan class="cnt">x100 </tspan><tspan
