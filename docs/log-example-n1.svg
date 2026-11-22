@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="262" viewBox="0 0 1200 262"
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="240" viewBox="0 0 1200 240"
      role="img" aria-label="Пример лога PerformanceLog — N+1">
   <defs>
     <clipPath id="window">
-      <rect x="0" y="0" width="1200" height="262" rx="10"/>
+      <rect x="0" y="0" width="1200" height="240" rx="10"/>
     </clipPath>
     <style>
       text {
@@ -24,7 +24,7 @@
   </defs>
 
   <g clip-path="url(#window)">
-    <rect width="1200" height="262" fill="#0d1117"/>
+    <rect width="1200" height="240" fill="#0d1117"/>
     <rect width="1200" height="34" fill="#161b22"/>
     <line x1="0" y1="34.5" x2="1200" y2="34.5" stroke="#30363d"/>
 
@@ -65,9 +65,7 @@
 
     <text xml:space="preserve" x="20" y="216"><tspan class="cnt">x100 </tspan><tspan
         class="sql">io.github.alekseyshibayev.user.Order</tspan></text>
-
-    <text xml:space="preserve" x="20" y="244"><tspan class="warn">N+1: 1 select к users → 20 select к orders (по одному на пользователя)</tspan></text>
   </g>
 
-  <rect x="0.5" y="0.5" width="1199" height="261" rx="10" fill="none" stroke="#30363d"/>
+  <rect x="0.5" y="0.5" width="1199" height="239" rx="10" fill="none" stroke="#30363d"/>
 </svg>

@@ -1,6 +1,6 @@
 # performance-log-starter
 
-Стартер для поиска проблем производительности Hibernate-слоя в Spring Boot.
+Стартер для поиска проблем производительности Hibernate-слоя в Spring Boot приложении.
 
 ## Зачем это
 
