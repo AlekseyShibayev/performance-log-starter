@@ -1,19 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="264" viewBox="0 0 900 264"
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="284" viewBox="0 0 900 284"
      role="img" aria-label="Пример лога PerformanceLog — N+1">
   <defs>
     <clipPath id="box">
-      <rect x="0" y="0" width="900" height="264" rx="10"/>
+      <rect x="0" y="0" width="900" height="284" rx="10"/>
     </clipPath>
     <style>
       text {
         font-family: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
-        font-size: 13px;
+        font-size: 18px;
       }
       .msg   { fill: #e6edf3; }
-      .dim   { fill: #8b949e; }
       .faint { fill: #484f58; }
-      .time  { fill: #6e7681; }
-      .lvl   { fill: #3fb950; font-weight: bold; }
       .num   { fill: #f0883e; }
       .path  { fill: #79c0ff; }
       .sql   { fill: #a5d6ff; }
@@ -23,42 +20,35 @@
   </defs>
 
   <g clip-path="url(#box)">
-    <rect width="900" height="264" fill="#0d1117"/>
+    <rect width="900" height="284" fill="#0d1117"/>
 
-    <text xml:space="preserve" x="20" y="36"><tspan class="time">2026-11-22 14:32:07.481 </tspan><tspan
-        class="lvl">DEBUG</tspan><tspan class="faint"> </tspan><tspan class="path">PerformanceLogAspect</tspan><tspan
-        class="faint"> :</tspan></text>
-
-    <text xml:space="preserve" x="20" y="62"><tspan class="faint">  </tspan><tspan
+    <text xml:space="preserve" x="20" y="40"><tspan
         class="msg">method execution time: [</tspan><tspan class="num">1480</tspan><tspan
         class="msg">] ms, return collection, size: [</tspan><tspan class="num">20</tspan><tspan class="msg">],</tspan></text>
 
-    <text xml:space="preserve" x="20" y="88"><tspan class="msg">source: [</tspan><tspan
-        class="path">io.github.alekseyshibayev.user.UserService.findAllWithOrders#1</tspan><tspan class="msg">], query info:</tspan></text>
+    <text xml:space="preserve" x="20" y="76"><tspan class="msg">source: [</tspan><tspan
+        class="path">UserService.findAllWithOrders#1</tspan><tspan class="msg">], query info:</tspan></text>
 
-    <text xml:space="preserve" x="20" y="114"><tspan class="msg">onPrepareStatement: total: [</tspan><tspan
+    <text xml:space="preserve" x="20" y="112"><tspan class="msg">onPrepareStatement: total: [</tspan><tspan
         class="num">21</tspan><tspan class="msg">] (select: [</tspan><tspan class="num">21</tspan><tspan
-        class="msg">], update: [</tspan><tspan class="num">0</tspan><tspan class="msg">], insert: [</tspan><tspan
-        class="num">0</tspan><tspan class="msg">]), sql:</tspan></text>
+        class="msg">]), sql:</tspan></text>
 
-    <text xml:space="preserve" x="20" y="140"><tspan class="cnt">x1  </tspan><tspan
+    <text xml:space="preserve" x="20" y="148"><tspan class="cnt">x1  </tspan><tspan
         class="sql">select u1_0.id, u1_0.name, u1_0.email from users u1_0</tspan></text>
 
-    <rect x="14" y="146" width="872" height="26" rx="4" fill="#3a2d12"/>
-    <rect x="14" y="146" width="4" height="26" fill="#d29922"/>
-    <text xml:space="preserve" x="20" y="166"><tspan class="cnt">x20 </tspan><tspan
-        class="sql">select o1_0.id, o1_0.user_id, o1_0.amount from orders o1_0 where o1_0.user_id = ?</tspan></text>
-    <text xml:space="preserve" x="700" y="166"><tspan class="warn">← N+1</tspan></text>
+    <rect x="14" y="156" width="872" height="36" rx="4" fill="#3a2d12"/>
+    <rect x="14" y="156" width="4" height="36" fill="#d29922"/>
+    <text xml:space="preserve" x="20" y="184"><tspan class="cnt">x20 </tspan><tspan
+        class="sql">select o1_0.id, o1_0.amount from orders o1_0 where o1_0.user_id = ?</tspan></text>
+    <text xml:space="preserve" x="790" y="184"><tspan class="warn">← N+1</tspan></text>
 
-    <text xml:space="preserve" x="20" y="192"><tspan class="msg">onLoad: total: [</tspan><tspan
+    <text xml:space="preserve" x="20" y="220"><tspan class="msg">onLoad: total: [</tspan><tspan
         class="num">120</tspan><tspan class="msg">], types:</tspan></text>
 
-    <text xml:space="preserve" x="20" y="218"><tspan class="cnt">x20  </tspan><tspan
-        class="sql">User</tspan></text>
-
-    <text xml:space="preserve" x="20" y="244"><tspan class="cnt">x100 </tspan><tspan
+    <text xml:space="preserve" x="20" y="256"><tspan class="cnt">x20 </tspan><tspan
+        class="sql">User</tspan><tspan class="faint">,  </tspan><tspan class="cnt">x100 </tspan><tspan
         class="sql">Order</tspan></text>
   </g>
 
-  <rect x="0.5" y="0.5" width="899" height="263" rx="10" fill="none" stroke="#30363d"/>
+  <rect x="0.5" y="0.5" width="899" height="283" rx="10" fill="none" stroke="#30363d"/>
 </svg>
