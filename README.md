@@ -128,7 +128,7 @@ reason:[ERROR: canceling statement due to statement timeout]
 
 ## Как пользоваться в тестах
 
-1. Взять конфиг из `src/test/resources/test.properties`: там уже включены
+1. Взять конфиг из `src/test/resources/application-test.yml`: там уже включены
    `log.performance.enable` и `log.performance.write-query-values.enable`, а `pointcut-expression`
    закомментирован — значит проксируются только методы и классы с `@PerformanceLog`.
 2. Повесить `@PerformanceLog` на тестируемый класс или метод.
