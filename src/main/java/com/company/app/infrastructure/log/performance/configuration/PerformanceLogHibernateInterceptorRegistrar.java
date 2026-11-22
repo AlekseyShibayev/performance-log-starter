@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
 import org.springframework.stereotype.Component;
-import com.company.app.infrastructure.log.performance.PerformanceLogConfiguration;
 import com.company.app.infrastructure.log.performance.interceptor.HibernateQueryInfoInterceptor;
 
 import java.util.Map;

@@ -1,7 +1,6 @@
 package com.company.app.infrastructure.log.performance.interceptor.util;
 
 import lombok.experimental.UtilityClass;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import com.company.app.infrastructure.log.performance.PerformanceLogConfiguration;
 
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * {@link PerformanceLogConfiguration}
@@ -24,9 +22,9 @@ public class QueryInfoUtil {
      * select1 - 3
      * select2 - 1
      */
-    public static List<ImmutablePair<String, Integer>> getSortedAndGroupedList(List<String> source) {
+    public static List<Map.Entry<String, Integer>> getSortedAndGroupedList(List<String> source) {
         Map<String, Integer> map = QueryInfoUtil.mapListToMapIdentityVsCounter(source);
-        List<ImmutablePair<String, Integer>> list = QueryInfoUtil.getImmutablePairList(map);
+        List<Map.Entry<String, Integer>> list = QueryInfoUtil.getEntryList(map);
         QueryInfoUtil.sort(list);
         return list;
     }
@@ -47,20 +45,20 @@ public class QueryInfoUtil {
         return map;
     }
 
-    static List<ImmutablePair<String, Integer>> getImmutablePairList(Map<String, Integer> map) {
-        List<ImmutablePair<String, Integer>> list = new ArrayList<>();
+    static List<Map.Entry<String, Integer>> getEntryList(Map<String, Integer> map) {
+        List<Map.Entry<String, Integer>> list = new ArrayList<>();
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            list.add(new ImmutablePair<>(entry.getKey(), entry.getValue()));
+            list.add(Map.entry(entry.getKey(), entry.getValue()));
         }
         return list;
     }
 
-    static void sort(List<ImmutablePair<String, Integer>> list) {
+    static void sort(List<Map.Entry<String, Integer>> list) {
         list.sort(Comparator.comparing(QueryInfoUtil::apply).reversed());
     }
 
-    private static Integer apply(ImmutablePair<String, Integer> pair) {
-        return pair.right;
+    private static Integer apply(Map.Entry<String, Integer> pair) {
+        return pair.getValue();
     }
 
 }

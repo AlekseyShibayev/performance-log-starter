@@ -30,7 +30,7 @@ public class EntityStorageOnLoadStatistic {
                 "onLoad: total: [%s], types: ").formatted(totalEntityLoadAttemptCounter));
 
         var list = QueryInfoUtil.getSortedAndGroupedList(entityNames);
-        list.forEach(pair -> stringBuilder.append("\n").append("x").append(pair.right).append(" ").append(pair.left));
+        list.forEach(pair -> stringBuilder.append("\n").append("x").append(pair.getValue()).append(" ").append(pair.getKey()));
 
         return stringBuilder.toString();
     }

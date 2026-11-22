@@ -8,7 +8,6 @@ import org.springframework.boot.logging.LoggingSystem;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import com.company.app.infrastructure.log.performance.PerformanceLogConfiguration;
 import com.company.app.infrastructure.log.performance.aop.PerformanceLogAspect;
 
 @Slf4j

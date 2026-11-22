@@ -1,12 +1,10 @@
 package com.company.app.infrastructure.log.performance.interceptor.util;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 
 class QueryInfoUtilTest {
@@ -25,9 +23,9 @@ class QueryInfoUtilTest {
     void test2() {
         List<String> strings = List.of("1", "2", "1", "3", "3", "3");
 
-        List<ImmutablePair<String, Integer>> immutablePairList = QueryInfoUtil.getSortedAndGroupedList(strings);
+        List<Map.Entry<String, Integer>> immutablePairList = QueryInfoUtil.getSortedAndGroupedList(strings);
 
-        Assertions.assertEquals("3", immutablePairList.get(0).getLeft());
+        Assertions.assertEquals("3", immutablePairList.get(0).getKey());
     }
 
 }

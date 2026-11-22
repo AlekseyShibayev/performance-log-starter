@@ -9,7 +9,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 
 @SpringBootTest(classes = {DbTestConfiguration.class},
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+        webEnvironment = SpringBootTest.WebEnvironment.NONE)
 //@ContextConfiguration(initializers = TaskApplicationContextInitializer.class)
 @Testcontainers(disabledWithoutDocker = false)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

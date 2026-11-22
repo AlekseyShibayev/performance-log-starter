@@ -3,7 +3,6 @@ package com.company.app.infrastructure.log;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import com.company.app.StarterConfiguration;
 
 @EnableCaching

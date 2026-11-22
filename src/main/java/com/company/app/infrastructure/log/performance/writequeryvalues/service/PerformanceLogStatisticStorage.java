@@ -1,10 +1,10 @@
 package com.company.app.infrastructure.log.performance.writequeryvalues.service;
 
-import com.google.common.base.Stopwatch;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StopWatch;
 import com.company.app.infrastructure.log.performance.interceptor.HibernateQueryInfoInterceptor;
 import com.company.app.infrastructure.log.performance.writequeryvalues.common.ThrowingSQLSupplier;
 
@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.concurrent.TimeUnit;
 
 // TODO: move thread local variable from HibernateQueryInfoInterceptor to this class
 @Slf4j
@@ -36,13 +35,14 @@ public class PerformanceLogStatisticStorage {
     public <T> T execute(PreparedStatement preparedStatement, ThrowingSQLSupplier<T> supplier) throws SQLException {
         LocalDateTime now = LocalDateTime.now();
 
-        Stopwatch stopwatch = Stopwatch.createStarted();
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
 
         try {
             T t = supplier.executeQuery();
 
-            stopwatch.stop();
-            long methodExecutionTime = stopwatch.elapsed(TimeUnit.MILLISECONDS);
+            stopWatch.stop();
+            long methodExecutionTime = stopWatch.getTotalTimeMillis();
             String realSql = preparedStatement.toString();
 
             String logMessage = TEMPLATE.formatted(now.truncatedTo(ChronoUnit.MILLIS), methodExecutionTime, realSql);
@@ -50,8 +50,8 @@ public class PerformanceLogStatisticStorage {
 
             return t;
         } catch (Exception e) {
-            stopwatch.stop();
-            long methodExecutionTime = stopwatch.elapsed(TimeUnit.MILLISECONDS);
+            stopWatch.stop();
+            long methodExecutionTime = stopWatch.getTotalTimeMillis();
             String realSql = preparedStatement.toString();
 
             String logMessage = ERROR_TEMPLATE.formatted(now.truncatedTo(ChronoUnit.MILLIS), methodExecutionTime, realSql, e.getMessage());

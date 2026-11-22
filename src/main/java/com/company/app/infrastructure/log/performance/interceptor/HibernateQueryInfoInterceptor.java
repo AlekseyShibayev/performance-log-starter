@@ -5,10 +5,8 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.resource.jdbc.spi.StatementInspector;
 import org.hibernate.type.Type;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
-import com.company.app.infrastructure.log.performance.PerformanceLogConfiguration;
 import com.company.app.infrastructure.log.performance.interceptor.model.QueryInfo;
 
 import java.io.Serializable;
