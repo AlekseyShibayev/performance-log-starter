@@ -48,8 +48,18 @@ class DisabledModuleTest {
     }
 
     @Test
+    void disabled_write_query_values_does_not_check_profiles() {
+        runner.withInitializer(context -> context.getEnvironment().setActiveProfiles("prod"))
+                .withPropertyValues("log.performance.enable=true")
+                .run(context -> assertThat(context)
+                        .hasNotFailed()
+                        .doesNotHaveBean(PerformanceLogDataSourceAspect.class));
+    }
+
+    @Test
     void module_and_write_query_values_are_enabled_together() {
-        runner.withPropertyValues(
+        runner.withInitializer(context -> context.getEnvironment().setActiveProfiles("test"))
+                .withPropertyValues(
                         "log.performance.enable=true",
                         "log.performance.write-query-values.enable=true"
                 )
@@ -57,6 +67,21 @@ class DisabledModuleTest {
                         .hasSingleBean(PerformanceLogAspect.class)
                         .hasSingleBean(PerformanceLogDataSourceAspect.class)
                         .hasSingleBean(PerformanceLogStatisticStorage.class));
+    }
+
+    @Test
+    void write_query_values_fails_fast_without_allowed_profile() {
+        runner.withInitializer(context -> context.getEnvironment().setActiveProfiles("prod"))
+                .withPropertyValues(
+                        "log.performance.enable=true",
+                        "log.performance.write-query-values.enable=true"
+                )
+                .run(context -> {
+                    assertThat(context).hasFailed();
+                    assertThat(context.getStartupFailure())
+                            .hasRootCauseInstanceOf(IllegalStateException.class)
+                            .hasMessageContaining("local,test,dev");
+                });
     }
 
 }

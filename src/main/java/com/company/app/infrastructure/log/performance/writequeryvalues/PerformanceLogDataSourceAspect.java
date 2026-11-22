@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import com.company.app.infrastructure.log.performance.writequeryvalues.delegate.ConnectionDelegate;
 import com.company.app.infrastructure.log.performance.writequeryvalues.service.PerformanceLogStatisticStorage;
@@ -23,9 +24,11 @@ import java.sql.Connection;
 public class PerformanceLogDataSourceAspect {
 
     private final PerformanceLogStatisticStorage performanceLogStatisticStorage;
+    private final Environment environment;
 
     @PostConstruct
     void init() {
+        WriteQueryValuesProfileGuard.validateProfiles(environment);
         log.debug("**********     created [{}]     **********", this.getClass().getName());
     }
 

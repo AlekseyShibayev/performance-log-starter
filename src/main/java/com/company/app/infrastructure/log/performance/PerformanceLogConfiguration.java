@@ -33,6 +33,10 @@ import com.company.app.infrastructure.log.performance.interceptor.HibernateQuery
  * default - 0 ms
  * 2. For show real sql query with values:
  * log.performance.write-query-values.enable=true
+ * <p>
+ * Real sql values may contain PII, so they are logged only when all active Spring profiles are one of
+ * local, test, dev (hardcoded in WriteQueryValuesProfileGuard).
+ * Otherwise the application fails fast during startup.
  */
 @Slf4j
 @Configuration
