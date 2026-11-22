@@ -1,22 +1,25 @@
 package com.company.app.infrastructure.log.performance.interceptor;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInvocation;
 import org.hibernate.EmptyInterceptor;
+import org.hibernate.resource.jdbc.spi.StatementInspector;
 import org.hibernate.type.Type;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import com.company.app.infrastructure.log.performance.PerformanceLogConfiguration;
 import com.company.app.infrastructure.log.performance.interceptor.model.QueryInfo;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
  * Before original method:
  * create key, with full class name + .method + # number, and put it into thread local map with new QueryInfo.
+ * key example: com.company.app.web.EntitiesController.getEntities#1
  * <p>
  * When method running:
  * intercept hibernate actions and modify all QueryInfo by current thread.
@@ -26,8 +29,8 @@ import com.company.app.infrastructure.log.performance.interceptor.model.QueryInf
  */
 @Slf4j
 @Service
-@ConditionalOnBean(PerformanceLogConfiguration.class)
-public class HibernateQueryInfoInterceptor extends EmptyInterceptor {
+@ConditionalOnProperty(prefix = "log.performance", name = "enable", havingValue = "true")
+public class HibernateQueryInfoInterceptor extends EmptyInterceptor implements StatementInspector {
 
     private static final ThreadLocal<Map<String, QueryInfo>> METHOD_NAME_VS_QUERY_INFO = ThreadLocal.withInitial(HashMap::new);
     private static final ThreadLocal<Long> METHOD_INVOCATION_ATTEMPT_COUNTER = ThreadLocal.withInitial(() -> 1L);
@@ -86,15 +89,24 @@ public class HibernateQueryInfoInterceptor extends EmptyInterceptor {
         return super.onLoad(entity, id, state, propertyNames, types);
     }
 
+    public void addQueryWithValues(String sql) {
+        Map<String, QueryInfo> map = METHOD_NAME_VS_QUERY_INFO.get();
+        if (!map.isEmpty()) {
+            for (QueryInfo queryInfo : map.values()) {
+                queryInfo.addQueryWithValue(sql);
+            }
+        }
+    }
+
     @Override
-    public String onPrepareStatement(String sql) {
+    public String inspect(String sql) {
         Map<String, QueryInfo> map = METHOD_NAME_VS_QUERY_INFO.get();
         if (!map.isEmpty()) {
             for (QueryInfo queryInfo : map.values()) {
                 queryInfo.changeOnPrepareStatement(sql);
             }
         }
-        return super.onPrepareStatement(sql);
+        return sql;
     }
 
 }

@@ -1,10 +1,11 @@
 package com.company.app.infrastructure.log.performance.interceptor.model;
 
+import com.company.app.infrastructure.log.performance.PerformanceLogConfiguration;
+import com.company.app.infrastructure.log.performance.interceptor.util.QueryInfoUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.company.app.infrastructure.log.performance.PerformanceLogConfiguration;
-import com.company.app.infrastructure.log.performance.interceptor.util.QueryInfoUtil;
 
 /**
  * Select requests that are not in cache are considered
@@ -37,7 +38,7 @@ public class PreparedSQLCallsStatistic {
     public String toString() {
         var stringBuilder = new StringBuilder();
 
-        stringBuilder.append("total: [%s] (of them: select: [%s], update: [%s], insert: [%s]), sql:"
+        stringBuilder.append("onPrepareStatement: total: [%s] (of them: select: [%s], update: [%s], insert: [%s]), sql:"
                 .formatted(total, select, update, insert));
 
         var list = QueryInfoUtil.getSortedAndGroupedList(sqlList);

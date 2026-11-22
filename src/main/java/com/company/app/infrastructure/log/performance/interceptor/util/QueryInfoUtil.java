@@ -1,14 +1,15 @@
 package com.company.app.infrastructure.log.performance.interceptor.util;
 
+import lombok.experimental.UtilityClass;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import com.company.app.infrastructure.log.performance.PerformanceLogConfiguration;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import lombok.experimental.UtilityClass;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import com.company.app.infrastructure.log.performance.PerformanceLogConfiguration;
+import java.util.Optional;
 
 /**
  * {@link PerformanceLogConfiguration}

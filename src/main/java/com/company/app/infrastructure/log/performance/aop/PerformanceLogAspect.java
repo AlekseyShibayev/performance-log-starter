@@ -1,5 +1,6 @@
 package com.company.app.infrastructure.log.performance.aop;
 
+
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
@@ -8,9 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import com.company.app.infrastructure.log.performance.PerformanceLogConfiguration;
@@ -23,14 +22,14 @@ import com.company.app.infrastructure.log.performance.interceptor.model.QueryInf
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@ConditionalOnBean(PerformanceLogConfiguration.class)
+@ConditionalOnProperty(prefix = "log.performance", name = "enable", havingValue = "true")
 public class PerformanceLogAspect implements MethodInterceptor {
 
     private final HibernateQueryInfoInterceptor hibernateQueryInfoInterceptor;
     private final PerformanceLogService performanceLogService;
 
     @Override
-    public Object invoke(@NotNull MethodInvocation invocation) throws Throwable {
+    public Object invoke(MethodInvocation invocation) throws Throwable {
         if (log.isDebugEnabled()) {
             String key = hibernateQueryInfoInterceptor.createKey(invocation);
             Stopwatch stopwatch = Stopwatch.createStarted();
@@ -40,8 +39,7 @@ public class PerformanceLogAspect implements MethodInterceptor {
         }
     }
 
-    @Nullable
-    private Object doOriginalMethodWithAdditionalLogging(@NotNull MethodInvocation invocation, String key, Stopwatch stopwatch) throws Throwable {
+    private Object doOriginalMethodWithAdditionalLogging(MethodInvocation invocation, String key, Stopwatch stopwatch) throws Throwable {
         try {
             Object result = invocation.proceed();
 
@@ -50,9 +48,28 @@ public class PerformanceLogAspect implements MethodInterceptor {
 
             writeToLog(stopwatch, key, result, queryInfo);
             return result;
+        } catch (Exception e) {
+            writeToLog(key, stopwatch);
+            throw e;
         } finally {
             hibernateQueryInfoInterceptor.remove(key);
         }
+    }
+
+    private void writeToLog(String key, Stopwatch stopwatch) {
+        stopwatch.stop();
+        QueryInfo queryInfo = hibernateQueryInfoInterceptor.getQueryInfo(key);
+        long methodExecutionTime = stopwatch.elapsed(TimeUnit.MILLISECONDS);
+
+        if (performanceLogService.isMethodExecutionTimeLessThenExecutionTimeBorder(methodExecutionTime)) {
+            return;
+        }
+
+        log.debug("method execution time: [{}] ms, source: [{}], query info: \n{}",
+                methodExecutionTime,
+                key,
+                queryInfo
+        );
     }
 
     private void writeToLog(Stopwatch stopwatch, String classAndMethodName, Object result, QueryInfo queryInfo) {

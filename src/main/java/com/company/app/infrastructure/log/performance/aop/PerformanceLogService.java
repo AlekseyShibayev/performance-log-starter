@@ -4,9 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import com.company.app.infrastructure.log.performance.PerformanceLogConfiguration;
+
 
 /**
  * For limit log by method execution time use:
@@ -18,7 +19,7 @@ import com.company.app.infrastructure.log.performance.PerformanceLogConfiguratio
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@ConditionalOnBean(PerformanceLogConfiguration.class)
+@ConditionalOnProperty(prefix = "log.performance", name = "enable", havingValue = "true")
 public class PerformanceLogService {
 
     @Setter

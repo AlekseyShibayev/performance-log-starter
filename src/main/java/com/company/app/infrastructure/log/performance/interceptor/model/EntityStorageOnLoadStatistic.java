@@ -1,10 +1,12 @@
 package com.company.app.infrastructure.log.performance.interceptor.model;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.company.app.infrastructure.log.performance.PerformanceLogConfiguration;
 import com.company.app.infrastructure.log.performance.interceptor.util.QueryInfoUtil;
+import com.company.app.infrastructure.log.performance.PerformanceLogConfiguration;
+
 
 /**
  * {@link PerformanceLogConfiguration}
@@ -24,7 +26,8 @@ public class EntityStorageOnLoadStatistic {
     public String toString() {
         var stringBuilder = new StringBuilder();
 
-        stringBuilder.append("total: [%s], types: ".formatted(totalEntityLoadAttemptCounter));
+        stringBuilder.append(("\n" +
+                "onLoad: total: [%s], types: ").formatted(totalEntityLoadAttemptCounter));
 
         var list = QueryInfoUtil.getSortedAndGroupedList(entityNames);
         list.forEach(pair -> stringBuilder.append("\n").append("x").append(pair.right).append(" ").append(pair.left));

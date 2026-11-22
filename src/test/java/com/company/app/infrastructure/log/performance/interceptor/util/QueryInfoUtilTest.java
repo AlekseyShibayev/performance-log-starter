@@ -1,12 +1,13 @@
 package com.company.app.infrastructure.log.performance.interceptor.util;
 
-import java.util.List;
-import java.util.Map;
-
-import com.company.app.infrastructure.log.performance.interceptor.util.QueryInfoUtil;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 
 class QueryInfoUtilTest {
 
