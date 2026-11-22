@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="240" viewBox="0 0 1200 240"
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="206" viewBox="0 0 1200 206"
      role="img" aria-label="Пример лога PerformanceLog — N+1">
   <defs>
-    <clipPath id="window">
-      <rect x="0" y="0" width="1200" height="240" rx="10"/>
+    <clipPath id="box">
+      <rect x="0" y="0" width="1200" height="206" rx="10"/>
     </clipPath>
     <style>
       text {
@@ -19,53 +19,44 @@
       .sql   { fill: #a5d6ff; }
       .cnt   { fill: #d2a8ff; }
       .warn  { fill: #d29922; font-weight: bold; }
-      .title { fill: #8b949e; font-size: 11px; }
     </style>
   </defs>
 
-  <g clip-path="url(#window)">
-    <rect width="1200" height="240" fill="#0d1117"/>
-    <rect width="1200" height="34" fill="#161b22"/>
-    <line x1="0" y1="34.5" x2="1200" y2="34.5" stroke="#30363d"/>
+  <g clip-path="url(#box)">
+    <rect width="1200" height="206" fill="#0d1117"/>
 
-    <rect x="20" y="14" width="8" height="8" rx="2" fill="#30363d"/>
-    <rect x="34" y="14" width="8" height="8" rx="2" fill="#30363d"/>
-    <rect x="48" y="14" width="8" height="8" rx="2" fill="#30363d"/>
-
-    <text class="title" x="600" y="21" text-anchor="middle">logs/app.log — PerformanceLog (DEBUG)</text>
-
-    <text xml:space="preserve" x="20" y="62"><tspan class="time">2026-11-22 14:32:07.481 </tspan><tspan
+    <text xml:space="preserve" x="20" y="32"><tspan class="time">2026-11-22 14:32:07.481 </tspan><tspan
         class="lvl">DEBUG</tspan><tspan class="faint"> 12345 --- </tspan><tspan class="dim">[nio-8080-exec-1]</tspan><tspan
         class="faint"> </tspan><tspan class="path">io.github.alekseyshibayev.infrastructure.log.performance.aop.PerformanceLogAspect</tspan><tspan
         class="faint"> : </tspan><tspan class="msg">method execution time: [</tspan><tspan class="num">1480</tspan><tspan
         class="msg">] ms, return collection, size: [</tspan><tspan class="num">20</tspan><tspan class="msg">],</tspan></text>
 
-    <text xml:space="preserve" x="20" y="84"><tspan class="msg">source: [</tspan><tspan
+    <text xml:space="preserve" x="20" y="54"><tspan class="msg">source: [</tspan><tspan
         class="path">io.github.alekseyshibayev.user.UserService.findAllWithOrders#1</tspan><tspan class="msg">], query info:</tspan></text>
 
-    <text xml:space="preserve" x="20" y="106"><tspan class="msg">onPrepareStatement: total: [</tspan><tspan
+    <text xml:space="preserve" x="20" y="76"><tspan class="msg">onPrepareStatement: total: [</tspan><tspan
         class="num">21</tspan><tspan class="msg">] (of them: select: [</tspan><tspan class="num">21</tspan><tspan
         class="msg">], update: [</tspan><tspan class="num">0</tspan><tspan class="msg">], insert: [</tspan><tspan
         class="num">0</tspan><tspan class="msg">]), sql:</tspan></text>
 
-    <text xml:space="preserve" x="20" y="128"><tspan class="cnt">x1 </tspan><tspan
+    <text xml:space="preserve" x="20" y="98"><tspan class="cnt">x1 </tspan><tspan
         class="sql">select u1_0.id, u1_0.name, u1_0.email from users u1_0</tspan></text>
 
-    <rect x="14" y="139" width="1172" height="21" rx="4" fill="#3a2d12"/>
-    <rect x="14" y="139" width="4" height="21" fill="#d29922"/>
-    <text xml:space="preserve" x="20" y="155"><tspan class="cnt">x20 </tspan><tspan
+    <rect x="14" y="104" width="1172" height="21" rx="4" fill="#3a2d12"/>
+    <rect x="14" y="104" width="4" height="21" fill="#d29922"/>
+    <text xml:space="preserve" x="20" y="120"><tspan class="cnt">x20 </tspan><tspan
         class="sql">select o1_0.id, o1_0.user_id, o1_0.amount from orders o1_0 where o1_0.user_id = ?</tspan></text>
-    <text xml:space="preserve" x="640" y="155"><tspan class="warn">← N+1</tspan></text>
+    <text xml:space="preserve" x="640" y="120"><tspan class="warn">← N+1</tspan></text>
 
-    <text xml:space="preserve" x="20" y="172"><tspan class="msg">onLoad: total: [</tspan><tspan
+    <text xml:space="preserve" x="20" y="142"><tspan class="msg">onLoad: total: [</tspan><tspan
         class="num">120</tspan><tspan class="msg">], types:</tspan></text>
 
-    <text xml:space="preserve" x="20" y="194"><tspan class="cnt">x20 </tspan><tspan
+    <text xml:space="preserve" x="20" y="164"><tspan class="cnt">x20 </tspan><tspan
         class="sql">io.github.alekseyshibayev.user.User</tspan></text>
 
-    <text xml:space="preserve" x="20" y="216"><tspan class="cnt">x100 </tspan><tspan
+    <text xml:space="preserve" x="20" y="186"><tspan class="cnt">x100 </tspan><tspan
         class="sql">io.github.alekseyshibayev.user.Order</tspan></text>
   </g>
 
-  <rect x="0.5" y="0.5" width="1199" height="239" rx="10" fill="none" stroke="#30363d"/>
+  <rect x="0.5" y="0.5" width="1199" height="205" rx="10" fill="none" stroke="#30363d"/>
 </svg>
