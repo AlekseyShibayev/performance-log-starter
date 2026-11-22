@@ -1,22 +1,30 @@
 # performance-log-starter
 
-Стартер для поиска проблем производительности JPA-слоя в Spring Boot приложениях.
+Стартер для поиска проблем производительности Hibernate-слоя в Spring Boot.
 
 ## Зачем это
 
-Показывает, что JPA-слой делает во время конкретного вызова:
+Показывает, что Hibernate-слой делает во время конкретного вызова:
 время метода, SQL-запросы, повторы и загруженные сущности.
 Помогает найти медленный запрос и понять, откуда он взялся.
 
 По умолчанию всё выключено: бины стартера не создаются, на производительность
 это не влияет.
 
-## Как включить
+---
 
-1. Добавить зависимость `com.company.app:performance-log-starter` в вашу систему
+## Часть 1. Схлопнутые запросы с `?`
+
+Базовый режим: стартер пишет в лог статистику вызова и SQL-запросы
+с плейсхолдерами `?` вместо значений. Этого обычно достаточно, чтобы найти
+медленный запрос и понять, откуда он взялся.
+
+### Как включить
+
+1. Добавить зависимость `io.github.alekseyshibayev:performance-log-starter` в вашу систему
    сборки (Maven, Gradle — как принято в проекте).
 
-2. Включить модуль. Рабочий вариант — выключено на проде, включено на dev/test,
+2. Включить модуль. Вот пример для всех контроллеров и шедулеров,
    пишем только то, что дольше 500 мс:
 
 ```yaml
@@ -28,21 +36,19 @@ log:
       || @within(org.springframework.web.bind.annotation.RestController)}
     do-not-write-to-log-methods-whose-execution-time-is-less-than-X-ms: >-
       ${LOG_PERFORMANCE_DO_NOT_WRITE_TO_LOG_METHODS_WHOSE_EXECUTION_TIME_IS_LESS_THAN_X_MS:500}
-    write-query-values:
-      enable: ${LOG_PERFORMANCE_WRITE_QUERY_VALUES_ENABLE:false}
 ```
 
-3. Если свой `pointcut-expression` не задан — пометить нужные классы или методы `@PerformanceLog`.
+3. Дефолтное поведение — проксирует классы и методы, помеченные `@PerformanceLog`.
 
 Больше ничего настраивать не нужно: при старте стартер сам поднимает `DEBUG`
 для своего пакета и регистрирует Hibernate interceptor и statement inspector.
 
-## Как выглядит лог
+### Как выглядит лог
 
-![Пример лога PerformanceLog](docs/log-example.svg)
+![Пример лога PerformanceLog](docs/log-example-n1.svg)
 
-В примере: 183 мс, `Slice` из 20 элементов, 2 одинаковых select, 2 сущности.
-Внизу — блок `sql with values` с реальными значениями вместо `?`.
+В примере: метод вернул 20 пользователей за 1480 мс, но выполнил 21 select —
+1 к `users` и 20 одинаковых к `orders` (N+1, выделено жёлтым).
 
 В логирование входит:
 
@@ -50,10 +56,9 @@ log:
 2. размер результата, если это `Collection` или `Slice` (родитель `Page`);
 3. источник — полное имя класса и метода;
 4. `QueryInfo`: сколько было подготовок запросов (из них select/update/insert), какие SQL и сколько раз,
-   сколько сущностей загрузилось и каких типов;
-5. при включённом `write-query-values` — реальные SQL с подставленными значениями.
+   сколько сущностей загрузилось и каких типов.
 
-## Как читать статистику
+### Как читать статистику
 
 - Каждый залогированный select — запрос, реально ушедший в БД.
 - Если запроса в логе нет, значит Hibernate обошёлся без него: сущность уже в persistence context
@@ -62,12 +67,16 @@ log:
 - Вложенные прокси-методы аккумулируются: внешний вызов видит запросы
   всех вложенных вызовов.
 
-## Реальные SQL со значениями
+---
+
+## Часть 2. Реальные значения SQL
+
+Опционально можно писать реальные SQL: вместо `?` подставляются значения параметров.
 
 > Реальные значения пишутся только для профилей `local`, `test`, `dev`.
 > При другом профиле приложение не стартует. Это PII — не включайте на проде.
 
-Флаг `write-query-values.enable` заменяет `?` в логе на реальные значения параметров:
+Включить флагом `write-query-values.enable`:
 
 ```yaml
 log:
@@ -89,6 +98,8 @@ reason:[ERROR: canceling statement due to statement timeout]
 Строка берётся из `toString()` JDBC-драйвера, формат зависит от драйвера.
 Флаг замедляет горячие участки — включайте точечно.
 
+---
+
 ## Параметры
 
 | Параметр | По умолчанию | Описание |
@@ -102,11 +113,11 @@ reason:[ERROR: canceling statement due to statement timeout]
 
 | Что проксировать | Выражение |
 |---|---|
-| все методы пакета | `execution(* com.company.app.user.*.*(..))` |
-| все методы класса | `execution(* com.company.app.user.UserService.*(..))` |
+| все методы пакета | `execution(* io.github.alekseyshibayev.user.*.*(..))` |
+| все методы класса | `execution(* io.github.alekseyshibayev.user.UserService.*(..))` |
 | методы с `@Scheduled` | `@annotation(org.springframework.scheduling.annotation.Scheduled)` |
 | методы классов с `@RestController` | `@within(org.springframework.web.bind.annotation.RestController)` |
-| методы классов, реализующих интерфейс | `execution(* *(..)) && within(com.company.app.api.Processor+)` |
+| методы классов, реализующих интерфейс | `execution(* *(..)) && within(io.github.alekseyshibayev.api.Processor+)` |
 
 ## Подводные камни
 
