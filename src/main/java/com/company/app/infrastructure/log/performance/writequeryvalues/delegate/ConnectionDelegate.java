@@ -128,12 +128,12 @@ public class ConnectionDelegate implements Connection {
 
     @Override
     public Statement createStatement(int i, int i1) throws SQLException {
-        return connection.createStatement(i, i1);
+        return StatementDelegate.of(connection.createStatement(i, i1));
     }
 
     @Override
     public PreparedStatement prepareStatement(String s, int i, int i1) throws SQLException {
-        return connection.prepareStatement(s, i, i1);
+        return PreparedStatementDelegate.of(connection.prepareStatement(s, i, i1), statisticStorage);
     }
 
     @Override
@@ -183,12 +183,12 @@ public class ConnectionDelegate implements Connection {
 
     @Override
     public Statement createStatement(int i, int i1, int i2) throws SQLException {
-        return connection.createStatement(i, i1, i2);
+        return StatementDelegate.of(connection.createStatement(i, i1, i2));
     }
 
     @Override
     public PreparedStatement prepareStatement(String s, int i, int i1, int i2) throws SQLException {
-        return connection.prepareStatement(s, i, i1, i2);
+        return PreparedStatementDelegate.of(connection.prepareStatement(s, i, i1, i2), statisticStorage);
     }
 
     @Override
